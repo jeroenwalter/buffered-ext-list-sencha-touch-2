@@ -89,6 +89,10 @@ Ext.define('Ext.ux.BufferedList', {
 			return;
 		}
 
+    var me = this;
+    // Make sure that the DataView internally also uses our own viewItemArray.
+    this.container.getViewItems = function() { return me.viewItemArray; };
+    
 		this.hasBeenInitialized = true;
 
 		// Member variables to hold indicies of first and last items rendered.
@@ -516,10 +520,12 @@ Ext.define('Ext.ux.BufferedList', {
 			this.updateItemList();
 		}
 		// show some debugging
+    // only useful if you have 1 list.
 		if (location.search.indexOf('BUFFERED_LIST_DEBUG') != -1)
 		{
-			console.log('number of rendered items', Ext.select('.x-list-item').elements.length);
+			console.log('number of rendered items', Ext.select('.' + this.getBaseCls() + '-item').elements.length);
 		}
+    
 	},
 
 	// used by insertItems, appendItems, replaceItems. Builds HTML to add
@@ -901,12 +907,6 @@ Ext.define('Ext.ux.BufferedList', {
 
 	// @private override - return the dom nodes in the list
 	getViewItems: function() {
-		// weird place to initialize this, but that's what the base dataView:getViewItems does
-		// TODO - probably due to the out-of-order initialization bug I reported.
-		if (! this.elementContainer)
-		{
-			this.elementContainer = this.add(new Ext.Component());
-		}
 		return this.viewItemArray;
 	},
 
@@ -1155,10 +1155,10 @@ Ext.define('Ext.ux.BufferedList', {
 			this.updateItemList();
 		}
 	},
-
+    
 	onStoreClear : function(ds) {
-		this.callParent(arguments);
-
+    this.callParent(arguments);
+    
 		if (this.getGrouped()) {
 			this.createGroupingMap();
 		}
