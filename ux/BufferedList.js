@@ -134,7 +134,7 @@ Ext.define('Ext.ux.BufferedList', {
 
 		// set event handlers on our new wrapper element
 		var listeners = {
-			delegate	: 'div.ux-list-container .x-list-item',
+			delegate	: 'div.ux-list-container .' + this.getBaseCls() + '-item',
 			scope			: this,
 			touchstart: 'onItemTouchStart',
 			touchend  : 'onItemTouchEnd',
