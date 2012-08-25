@@ -176,6 +176,8 @@ Ext.define('Ext.ux.BufferedList', {
 
 	// @override of dataView function - refresh simply re-renders current item list
 	doRefresh: function() {
+		var store = this.getStore();
+		
 		if ( this.firstRefreshDone === undefined )
 			return;
 
@@ -210,7 +212,6 @@ Ext.define('Ext.ux.BufferedList', {
 			this.bottomProxy.setHeight(0);
 
 			// show & buffer first items in the list
-			var store = this.getStore();
 			if ( store && store.getCount() > 0 )
 			{
 				this.refreshItemListAt(0); // renders first this.getMinimumItems() nodes in store
@@ -225,7 +226,6 @@ Ext.define('Ext.ux.BufferedList', {
 			}
 			this.updateItemList();
 
-			store = this.getStore();
 			if (store && store.getCount() < 1) {
 				this.onStoreClear();
 			}
