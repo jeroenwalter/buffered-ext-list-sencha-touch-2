@@ -1027,11 +1027,13 @@ Ext.define('Ext.ux.BufferedList', {
 			}
 		}
 
-		item.on({
-			touchmove: 'onItemTouchMove',
-			scope	: me,
-			single: true
-		});
+    if (item) {
+      item.on({
+        touchmove: 'onItemTouchMove',
+        scope	: me,
+        single: true
+      });
+    }
 
 		me.fireEvent('itemtouchstart', me, index, target, record, e);
 	},
@@ -1053,10 +1055,12 @@ Ext.define('Ext.ux.BufferedList', {
 			Ext.get(target).removeCls(me.getPressedCls());
 		}
 
-		item.un({
-			touchmove: 'onItemTouchMove',
-			scope	: me
-		});
+    if (item) {
+      item.un({
+        touchmove: 'onItemTouchMove',
+        scope	: me
+      });
+    }
 
 		me.fireEvent('itemtouchend', me, index, target, record, e);
 	},
@@ -1074,7 +1078,7 @@ Ext.define('Ext.ux.BufferedList', {
 			delete me.pressedTimeout;
 		}
 
-		if (record) {
+		if (item && record) {
 			item.removeCls(me.getPressedCls());
 		}
 	},
@@ -1112,8 +1116,10 @@ Ext.define('Ext.ux.BufferedList', {
 	// invoked by the selection model to maintain visual UI cues
 	doItemSelect: function(me, record) {
 		var item = Ext.get(this.nodeFromRecord(record)); // SMB patch
-		item.removeCls(me.getPressedCls());
-		item.addCls(me.getSelectedCls());
+    if (item) {
+      item.removeCls(me.getPressedCls());
+      item.addCls(me.getSelectedCls());
+    }
 	},
 
 
